@@ -23,9 +23,5 @@ def TranslateWords():
         
             st.write(result)
 
-
-
-
-
 if __name__ == "__main__":
     TranslateWords()
