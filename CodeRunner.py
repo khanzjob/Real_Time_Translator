@@ -11,13 +11,19 @@ load_dotenv(dotenv_path)
 # SUNBIRD_EN_LUGA_URL = os.getenv("SUNBIRD_EN_LUGA_URL")
 # SUNBIRD_ALL_LOCAL_TO_ENG = os.getenv("SUNBIRD_ALL_LOCAL_TO_ENG")
 # SUNBIRD_ACCESSTOKEN = os.getenv("SUNBIRD_ACCESSTOKEN")
+SUNBIRD_MUL_EN_URL = "https://api-inference.huggingface.co/models/Sunbird/sunbird-mul-en"
+HUGGINGFACE_API_KEY = "Bearer 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"
+SUNBIRD_EN_LUGA_URL = "https://api-inference.huggingface.co/models/Sunbird/sunbird-en-lg"
+SUNBIRD_ALL_LOCAL_TO_ENG = "https://api-inference.huggingface.co/models/Sunbird/mbart-mul-en"
+SUNBIRD_ACCESSTOKEN =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJCcnVuby5Tc2VraXdlcmUiLCJleHAiOjQ4Mzg2ODkxNjB9.o3u4vpxvSd10b552mS5FkATKAVN_R2_uSwC8tP0G-I8"
+ENGLISH_TO_ALL_LOCAL_URL = 'https://sunbird-ai-api-5bq6okiwgq-ew.a.run.app'
 
-SUNBIRD_MUL_EN_URL = st.secrets("SUNBIRD_MUL_EN_URL")
-HUGGINGFACE_API_KEY = st.secrets("HUGGINGFACE_API_KEY")
-SUNBIRD_EN_LUGA_URL = st.secrets("SUNBIRD_EN_LUGA_URL")
-SUNBIRD_ALL_LOCAL_TO_ENG = st.secrets("SUNBIRD_ALL_LOCAL_TO_ENG")
-SUNBIRD_ACCESSTOKEN = st.secrets("SUNBIRD_ACCESSTOKEN")
-ENGLISH_TO_ALL_LOCAL_URL = st.secrets("ENGLISH_TO_ALL_LOCAL_URL")
+# SUNBIRD_MUL_EN_URL = st.secrets("SUNBIRD_MUL_EN_URL")
+# HUGGINGFACE_API_KEY = st.secrets("HUGGINGFACE_API_KEY")
+# SUNBIRD_EN_LUGA_URL = st.secrets("SUNBIRD_EN_LUGA_URL")
+# SUNBIRD_ALL_LOCAL_TO_ENG = st.secrets("SUNBIRD_ALL_LOCAL_TO_ENG")
+# SUNBIRD_ACCESSTOKEN = st.secrets("SUNBIRD_ACCESSTOKEN")
+# ENGLISH_TO_ALL_LOCAL_URL = st.secrets("ENGLISH_TO_ALL_LOCAL_URL")
 
 def LocaLToEnglish(query):
     API_URL = SUNBIRD_MUL_EN_URL
