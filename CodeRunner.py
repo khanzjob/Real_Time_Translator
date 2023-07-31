@@ -3,14 +3,21 @@ import os
 from dotenv import find_dotenv, load_dotenv
 # import torchaudio
 # from speechbrain.pretrained import Tacotron2, HIFIGAN
-
+import streamlit as st
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
-SUNBIRD_MUL_EN_URL = os.getenv("SUNBIRD_MUL_EN_URL")
-HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-SUNBIRD_EN_LUGA_URL = os.getenv("SUNBIRD_EN_LUGA_URL")
-SUNBIRD_ALL_LOCAL_TO_ENG = os.getenv("SUNBIRD_ALL_LOCAL_TO_ENG")
-SUNBIRD_ACCESSTOKEN = os.getenv("SUNBIRD_ACCESSTOKEN")
+# SUNBIRD_MUL_EN_URL = os.getenv("SUNBIRD_MUL_EN_URL")
+# HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+# SUNBIRD_EN_LUGA_URL = os.getenv("SUNBIRD_EN_LUGA_URL")
+# SUNBIRD_ALL_LOCAL_TO_ENG = os.getenv("SUNBIRD_ALL_LOCAL_TO_ENG")
+# SUNBIRD_ACCESSTOKEN = os.getenv("SUNBIRD_ACCESSTOKEN")
+
+SUNBIRD_MUL_EN_URL = st.secrets("SUNBIRD_MUL_EN_URL")
+HUGGINGFACE_API_KEY = st.secrets("HUGGINGFACE_API_KEY")
+SUNBIRD_EN_LUGA_URL = st.secrets("SUNBIRD_EN_LUGA_URL")
+SUNBIRD_ALL_LOCAL_TO_ENG = st.secrets("SUNBIRD_ALL_LOCAL_TO_ENG")
+SUNBIRD_ACCESSTOKEN = st.secrets("SUNBIRD_ACCESSTOKEN")
+ENGLISH_TO_ALL_LOCAL_URL = st.secrets("ENGLISH_TO_ALL_LOCAL_URL")
 
 def LocaLToEnglish(query):
     API_URL = SUNBIRD_MUL_EN_URL
@@ -40,7 +47,7 @@ def ALL_LOCAL_TO_ENG(input_text):
 def ENGLISH_TO_ALL_LOCAL(target_language, text):
     
     access_token = SUNBIRD_ACCESSTOKEN
-    url = 'https://sunbird-ai-api-5bq6okiwgq-ew.a.run.app'
+    url = ENGLISH_TO_ALL_LOCAL_URL
 
     headers = {
         "Authorization": f"Bearer {access_token}",

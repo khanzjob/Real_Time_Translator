@@ -50,7 +50,6 @@ def AllToEnglish(text):
 
 def TranslateWords():
     st.title("Language Translator App")
-
     # List of supported languages for translation
     supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
 
