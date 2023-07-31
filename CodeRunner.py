@@ -11,7 +11,6 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 SUNBIRD_EN_LUGA_URL = os.getenv("SUNBIRD_EN_LUGA_URL")
 SUNBIRD_ALL_LOCAL_TO_ENG = os.getenv("SUNBIRD_ALL_LOCAL_TO_ENG")
 SUNBIRD_ACCESSTOKEN = os.getenv("SUNBIRD_ACCESSTOKEN")
-ENGLISH_TO_ALL_LOCAL_URL = os.getenv("ENGLISH_TO_ALL_LOCAL_URL")
 
 def LocaLToEnglish(query):
     API_URL = SUNBIRD_MUL_EN_URL
@@ -41,7 +40,7 @@ def ALL_LOCAL_TO_ENG(input_text):
 def ENGLISH_TO_ALL_LOCAL(target_language, text):
     
     access_token = SUNBIRD_ACCESSTOKEN
-    url = ENGLISH_TO_ALL_LOCAL_URL
+    url = 'https://sunbird-ai-api-5bq6okiwgq-ew.a.run.app'
 
     headers = {
         "Authorization": f"Bearer {access_token}",
