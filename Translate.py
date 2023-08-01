@@ -42,30 +42,37 @@ def TranslateWords():
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
+        with st.spinner("Translating..."):
 
-        # Translate user input to English
-        text_in_english = AllToEnglish(prompt)
+                # Translate user input to English
+            text_in_english = AllToEnglish(prompt)
 
-        # Translate English text to the selected target language
-        translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
+            # Translate English text to the selected target language
+            translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
 
-        # Display assistant response in chat message container
-        with  st.spinner("Translating..."):
+            # Display assistant response in chat message container
             with st.chat_message("assistant"):
+
                 message_placeholder = st.empty()
                 full_response = ""
                 assistant_response = f"Translation to {target_language}: {translation_result}"
 
-                # Simulate stream of response with milliseconds delay
+                    # Simulate stream of response with milliseconds delay
                 for chunk in assistant_response.split():
                     full_response += chunk + " "
                     time.sleep(0.05)
-                    # Add a blinking cursor to simulate typing
+                        # Add a blinking cursor to simulate typing
                     message_placeholder.markdown(full_response + "▌")
-                message_placeholder.markdown(full_response)
+                    message_placeholder.markdown(full_response)
 
-                # Add assistant response to chat history
+                    # Add assistant response to chat history
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
+            
+
+        
+                
+            
+                
 
 
 if __name__ == "__main__":
