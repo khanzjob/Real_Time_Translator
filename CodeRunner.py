@@ -11,6 +11,8 @@ load_dotenv(dotenv_path)
 # SUNBIRD_EN_LUGA_URL = os.getenv("SUNBIRD_EN_LUGA_URL")
 # SUNBIRD_ALL_LOCAL_TO_ENG = os.getenv("SUNBIRD_ALL_LOCAL_TO_ENG")
 # SUNBIRD_ACCESSTOKEN = os.getenv("SUNBIRD_ACCESSTOKEN")
+# ENGLISH_TO_ALL_LOCAL_URL = os.getenv("ENGLISH_TO_ALL_LOCAL_URL")
+
 SUNBIRD_MUL_EN_URL = "https://api-inference.huggingface.co/models/Sunbird/sunbird-mul-en"
 HUGGINGFACE_API_KEY = "Bearer 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"
 SUNBIRD_EN_LUGA_URL = "https://api-inference.huggingface.co/models/Sunbird/sunbird-en-lg"
