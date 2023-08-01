@@ -26,14 +26,15 @@ def TranslateWords():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Supported languages
+   
+    
+    # Accept user input
+    prompt = st.chat_input("Enter your message or translation query:")
+     # Supported languages
     supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
     
     # Dropdown for language selection
     target_language = st.selectbox("Select target language:", supported_languages)
-    
-    # Accept user input
-    prompt = st.chat_input("Enter your message or translation query:")
 
     if prompt:
         # Add user message to chat history
@@ -68,12 +69,6 @@ def TranslateWords():
                     # Add assistant response to chat history
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
             
-
-        
-                
-            
-                
-
 
 if __name__ == "__main__":
     TranslateWords()

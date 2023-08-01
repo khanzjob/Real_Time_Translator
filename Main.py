@@ -19,8 +19,11 @@ def intro():
         - **Broad Language Support:** Users can input text in any primary global language. For translation targets, a range of local languages like Luganda, Runyankole, Acholi, Lugbara, and Ateso are available via a dropdown menu.
        
         **Supported Languages:** Check out the table below to see which languages are supported for translation into local languages.
+
         """
     )
+    data="https://youtu.be/Z1FLSofVPHA"
+    st.video(data, format="video/mp4", start_time=0)
 
     # # Display the language support table
     # st.write(df_world_languages)
