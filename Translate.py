@@ -1,40 +1,4 @@
-# import streamlit as st
-# from googletrans import Translator
-# import streamlit as st
-# import time
 
-# from CodeRunner import ENGLISH_TO_ALL_LOCAL
-# # def translate_and_detect(query):
-# #     translator = Translator()
-# #     detected_language = translator.detect(query).lang
-# #     translated_text = translator.translate(query).text
-# #     response = f"Detected Language: {detected_language}\n Translated Text (English): {translated_text}"
-# #     return response
-
-# def AllToEnglish(text):
-#     translator=Translator()
-#     translated_text = translator.translate(text).text
-#     response = translated_text
-#     return response 
-
-# def TranslateWords():
-#     st.title("Language Translator App")
-#      # Form setup
-#     with st.form(key="form"):
-#         user_input = st.text_input("Enter your message:")
-#         submit_button = st.form_submit_button("Send")
-
-#     if submit_button:
-#         st.chat_message("user").write(user_input)
-#         with st.chat_message("assistant"):
-#             # result  = translate_and_detect(user_input)
-#             text = AllToEnglish(user_input)
-#             language = "Luganda"
-#             res = ENGLISH_TO_ALL_LOCAL(language,text )
-#             st.write(res)
-
-# if __name__ == "__main__":
-#     TranslateWords()
 import streamlit as st
 from googletrans import Translator
 import streamlit as st
@@ -42,33 +6,67 @@ import time
 
 from CodeRunner import ENGLISH_TO_ALL_LOCAL
 
+
 def AllToEnglish(text):
     translator = Translator()
     translated_text = translator.translate(text).text
     response = translated_text
     return response
 
+
 def TranslateWords():
-    st.title("Language Translator App")
-    # List of supported languages for translation
+    st.title("Language Translator Chat")
+
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Supported languages
     supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
+    
+    # Dropdown for language selection
+    target_language = st.selectbox("Select target language:", supported_languages)
+    
+    # Accept user input
+    prompt = st.chat_input("Enter your message or translation query:")
 
-    # Form setup
-    with st.form(key="form"):
-        user_input = st.text_input("Enter your message:")
-        target_language = st.selectbox("Select target language:", supported_languages)
-        submit_button = st.form_submit_button("Send")
+    if prompt:
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
 
-    if submit_button:
-        st.chat_message("user").write(user_input)
-        with st.chat_message("assistant"):
-            # Translate user input to English
-            text = AllToEnglish(user_input)
+        # Display user message in chat message container
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-            # Translate English text to the selected target language
-            res = ENGLISH_TO_ALL_LOCAL(target_language, text)
-            st.write(f"Translated text to {target_language}:")
-            st.write(res)
+        # Translate user input to English
+        text_in_english = AllToEnglish(prompt)
+
+        # Translate English text to the selected target language
+        translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
+
+        # Display assistant response in chat message container
+        with  st.spinner("Translating..."):
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
+                assistant_response = f"Translation to {target_language}: {translation_result}"
+
+                # Simulate stream of response with milliseconds delay
+                for chunk in assistant_response.split():
+                    full_response += chunk + " "
+                    time.sleep(0.05)
+                    # Add a blinking cursor to simulate typing
+                    message_placeholder.markdown(full_response + "▌")
+                message_placeholder.markdown(full_response)
+
+                # Add assistant response to chat history
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+
 
 if __name__ == "__main__":
     TranslateWords()

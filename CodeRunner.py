@@ -52,30 +52,32 @@ def ALL_LOCAL_TO_ENG(input_text):
     response = requests.post(API_URL, headers=headers, json=payload)
     return response.json()
 
+
+
 def ENGLISH_TO_ALL_LOCAL(target_language, text):
-    
     access_token = SUNBIRD_ACCESSTOKEN
     url = ENGLISH_TO_ALL_LOCAL_URL
-
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json"
     }
 
-    payload = {
-        "source_language": "English",
-        "target_language": target_language,
-        "text": text
-    }
+    # Split the text into chunks of up to 200 characters each
+    chunks = [text[i:i+200] for i in range(0, len(text), 200)]
+    translated_chunks = []
+    for chunk in chunks:
+        payload = {
+            "source_language": "English",
+            "target_language": target_language,
+            "text": chunk
+        }
+        response = requests.post(f"{url}/tasks/translate", headers=headers, json=payload)
 
-    response = requests.post(f"{url}/tasks/translate", headers=headers, json=payload)
+        if response.status_code == 200:
+            translated_chunks.append(response.json()["text"])
+        else:
+            # Handle the error appropriately (for now, appending the error message)
+            translated_chunks.append(f"Error: {response.status_code}, {response.text}")
 
-    if response.status_code == 200:
-        translated_text = response.json()["text"]
-        return translated_text
-    else:
-        return f"Error: {response.status_code}, {response.text}"
-# en = "This page describes how to use the Sunbird AI API and includes code samples in Python."
-# resp = translate_text("Runyankole", en)
-# print(resp)
-
+    # Combine the translated chunks to get the full translated text
+    return ' '.join(translated_chunks)
