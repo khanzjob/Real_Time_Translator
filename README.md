@@ -1,8 +1,10 @@
-# Real_Time_Translator
+## Real_Time_Translator
 real time translator that translates to local langauges
-# create env 
+## create env 
 # activate env
-# install dependencies
+## install dependencies
    google cloud
   pip install google-cloud
+  pip install streamlit(run it with sudo permissions)
+  
 
