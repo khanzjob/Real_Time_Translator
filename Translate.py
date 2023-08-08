@@ -1,11 +1,10 @@
-
-import streamlit as st
-from googletrans import Translator
 import streamlit as st
 import time
-
+import sounddevice as sd
+import numpy as np
+import speech_recognition as sr
+from googletrans import Translator
 from CodeRunner import ENGLISH_TO_ALL_LOCAL
-
 
 def AllToEnglish(text):
     translator = Translator()
@@ -13,11 +12,9 @@ def AllToEnglish(text):
     response = translated_text
     return response
 
-
 def TranslateWords():
     st.title("Language Translator Chat")
 
-    # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
@@ -26,49 +23,73 @@ def TranslateWords():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-   
-    
-    # Accept user input
-    prompt = st.chat_input("Enter your message or translation query:")
-     # Supported languages
-    supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
-    
-    # Dropdown for language selection
-    target_language = st.selectbox("Select target language:", supported_languages)
+    input_type = st.radio("Select input type:", ("Text", "Audio"))
 
-    if prompt:
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": prompt})
+    if input_type == "Audio":
+        st.write("")  # Empty space for better layout
 
-        # Display user message in chat message container
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        with st.spinner("Translating..."):
+        if st.button("Start Listening"):
+            st.write("Listening... Speak something!")
 
-                # Translate user input to English
-            text_in_english = AllToEnglish(prompt)
+            audio = sd.rec(int(5 * 44100), samplerate=44100, channels=1, dtype=np.int16)
+            sd.wait()
 
-            # Translate English text to the selected target language
+            recognizer = sr.Recognizer()
+            recognized_text = ""
+
+            try:
+                audio_data = audio.tobytes()  # Convert numpy array to bytes
+                audio_data = sr.AudioData(audio_data, 44100, 2)  # Create AudioData object
+                recognized_text = recognizer.recognize_google(audio_data, language="en")
+                st.write("Recognized Text:", recognized_text)
+            except sr.UnknownValueError:
+                st.write("Speech Recognition could not understand audio")
+            except sr.RequestError as e:
+                st.write("Could not request results from Speech Recognition service; {0}".format(e))
+
+        supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
+        target_language = st.selectbox("Select target language:", supported_languages)
+
+        if recognized_text:
+            text_in_english = AllToEnglish(recognized_text)
             translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
 
-            # Display assistant response in chat message container
             with st.chat_message("assistant"):
-
                 message_placeholder = st.empty()
                 full_response = ""
                 assistant_response = f"Translation to {target_language}: {translation_result}"
 
-                    # Simulate stream of response with milliseconds delay
                 for chunk in assistant_response.split():
                     full_response += chunk + " "
                     time.sleep(0.05)
-                        # Add a blinking cursor to simulate typing
                     message_placeholder.markdown(full_response + "▌")
                     message_placeholder.markdown(full_response)
 
-                    # Add assistant response to chat history
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
-            
+
+    else:
+        prompt = st.chat_input("Enter your message or translation query:")
+
+        supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
+        target_language = st.selectbox("Select target language:", supported_languages)
+
+        if prompt:
+            text_in_english = AllToEnglish(prompt)
+            translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
+
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
+                assistant_response = f"Translation to {target_language}: {translation_result}"
+
+                for chunk in assistant_response.split():
+                    full_response += chunk + " "
+                    time.sleep(0.05)
+                    message_placeholder.markdown(full_response + "▌")
+                    message_placeholder.markdown(full_response)
+
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+
 
 if __name__ == "__main__":
     TranslateWords()
