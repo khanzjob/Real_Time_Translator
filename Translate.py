@@ -11,13 +11,26 @@ def AllToEnglish(text):
     translated_text = translator.translate(text).text
     response = translated_text
     return response
+def streamData(translation_result):
+
+    with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
+                assistant_response = f"GENERAL LANGUAGE: {translation_result}"
+
+                for chunk in assistant_response.split():
+                    full_response += chunk + " "
+                    time.sleep(0.05)
+                    message_placeholder.markdown(full_response + "▌")
+                    message_placeholder.markdown(full_response)
+
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 def AudioTranslate(recognized_text,target_language):
     if recognized_text:
             text_in_english = AllToEnglish(recognized_text)
             translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
-            
-
+        
             with st.chat_message("assistant"):
                 message_placeholder = st.empty()
                 full_response = ""
@@ -31,7 +44,43 @@ def AudioTranslate(recognized_text,target_language):
 
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-    
+def listen(target_language):
+    r = sr.Recognizer()
+    try:
+        with sr.Microphone() as source:
+            st.write("Initializing microphone for use...")
+            r.adjust_for_ambient_noise(source, duration=5)
+            r.energy_threshold = 200
+            r.pause_threshold = 4
+
+            while True:
+                text = ""
+                st.write("Listening for new input. now...")
+                try:
+                    audio = r.listen(source, timeout=90, phrase_time_limit=90)  # Updated to 90 seconds
+                    st.write("Recognizing...")
+                    text = r.recognize_google(audio)
+                    streamData(text)
+                    AudioTranslate(text,target_language)
+                    
+                except sr.WaitTimeoutError:
+                    st.write("Timeout error: the speech recognition operation timed out")
+                    continue
+                except sr.UnknownValueError:
+                    st.write("Could not understand the audio")
+                    continue
+                except sr.RequestError as e:
+                    st.write(f"Could not request results from the speech recognition service; check your internet connection: {e}")
+                    continue
+                except Exception as e:
+                    st.write(f"An error occurred: {e}")
+                    continue
+
+                # engine.runAndWait()
+    except Exception as e:
+        st.write(f"An error occurred: {e}")
+
+
 
 def TranslateWords():
     st.title("Language Translator Chat")
@@ -50,23 +99,11 @@ def TranslateWords():
         st.write("")  # Empty space for better layout
 
         if st.button("Start Listening"):
-            st.write("Listening... Speak something!")
-
-            audio = sd.rec(int(5 * 44100), samplerate=44100, channels=1, dtype=np.int16)
-            sd.wait()
-
-            recognizer = sr.Recognizer()
-            recognized_text = ""
-            supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
-            target_language = st.selectbox("Select target language:", supported_languages)
-    
-
             try:
-                audio_data = audio.tobytes()  # Convert numpy array to bytes
-                audio_data = sr.AudioData(audio_data, 44100, 2)  # Create AudioData object
-                recognized_text = recognizer.recognize_google(audio_data, language="en")
-                AudioTranslate(recognized_text,target_langauge)
-                           
+                supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
+                target_language = st.selectbox("Select target language:", supported_languages)
+                listen(target_language)
+                  
             except sr.UnknownValueError:
                 st.write("Speech Recognition could not understand audio")
             except sr.RequestError as e:
