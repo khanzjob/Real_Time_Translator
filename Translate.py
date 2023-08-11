@@ -44,7 +44,7 @@ def AudioTranslate(recognized_text,target_language):
 
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-def listen(target_language):
+def listen():
     r = sr.Recognizer()
     try:
         with sr.Microphone() as source:
@@ -61,6 +61,11 @@ def listen(target_language):
                     st.write("Recognizing...")
                     text = r.recognize_google(audio)
                     streamData(text)
+                    supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
+                    target_language = st.selectbox("Select target language:", supported_languages)
+
+                    # Add a button to submit the langugage
+                    # check if btn is clicked 
                     AudioTranslate(text,target_language)
                     
                 except sr.WaitTimeoutError:
@@ -100,9 +105,8 @@ def TranslateWords():
 
         if st.button("Start Listening"):
             try:
-                supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
-                target_language = st.selectbox("Select target language:", supported_languages)
-                listen(target_language)
+                
+                listen()
                   
             except sr.UnknownValueError:
                 st.write("Speech Recognition could not understand audio")
