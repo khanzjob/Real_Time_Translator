@@ -1,6 +1,5 @@
 import streamlit as st
 import time
-import sounddevice as sd
 import numpy as np
 import speech_recognition as sr
 from googletrans import Translator
