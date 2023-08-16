@@ -85,8 +85,6 @@ def listen():
     except Exception as e:
         st.write(f"An error occurred: {e}")
 
-
-
 def TranslateWords():
     st.title("Language Translator Chat")
 
