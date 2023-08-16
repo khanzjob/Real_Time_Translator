@@ -5,12 +5,11 @@ name = "pypi"
 
 [packages]
 googletrans="==3.1.0a0"
-langchain = "==0.0.215"
-openai = "==0.27.8"
-streamlit = "==1.24.1"
-python-dotenv = "==1.0.0"
+langchain ="==0.0.215"
+openai="==0.27.8"
+streamlit="==1.24.1"
+python-dotenv="==1.0.0"
 
-PyAudio="==0.2.13"
 
 
 [dev-packages]
