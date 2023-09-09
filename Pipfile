@@ -10,8 +10,6 @@ openai="==0.27.8"
 streamlit="==1.24.1"
 python-dotenv="==1.0.0"
 SpeechRecognition="==3.10.0"
-portaudio19-dev="*"
-PyAudio="==0.2.13"
 
 
 
