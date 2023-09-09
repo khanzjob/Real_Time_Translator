@@ -83,12 +83,15 @@ def listen():
                 # engine.runAndWait()
     except Exception as e:
         st.write(f"An error occurred: {e}")
-
+        
 def TranslateWords():
     st.title("Language Translator Chat")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
+
+    # Initialize recognized_text with an empty string
+    recognized_text = ""
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
@@ -96,20 +99,35 @@ def TranslateWords():
             st.markdown(message["content"])
 
     input_type = st.radio("Select input type:", ("Text", "Audio"))
-
     if input_type == "Audio":
         st.write("")  # Empty space for better layout
 
         if st.button("Start Listening"):
-            try:
-                
-                listen()
-                  
-            except sr.UnknownValueError:
-                st.write("Speech Recognition could not understand audio")
-            except sr.RequestError as e:
-                st.write("Could not request results from Speech Recognition service; {0}".format(e))
+            st.write("Listening... Speak something!")
 
+            recognizer = sr.Recognizer()
+
+            try:
+                with sr.Microphone() as source:
+                    recognizer.adjust_for_ambient_noise(source, duration=5)
+                    recognizer.energy_threshold = 200
+                    recognizer.pause_threshold = 4
+
+                    audio = recognizer.listen(source, timeout=10, phrase_time_limit=20)
+                st.write("Recognizing...")
+                recognized_text = recognizer.recognize_google(audio, language="en")
+                st.write("Recognized Text:", recognized_text)
+            except sr.WaitTimeoutError:
+                st.write("Timeout error: the speech recognition operation timed out")
+            except sr.UnknownValueError:
+                st.write("Could not understand the audio")
+            except sr.RequestError as e:
+                st.write(f"Could not request results from the speech recognition service; check your internet connection: {e}")
+            except Exception as e:
+                st.write(f"An error occurred: {e}")
+        supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
+        target_language = st.selectbox("Select target language:", supported_languages)
+        
     else:
         prompt = st.chat_input("Enter your message or translation query:")
 
