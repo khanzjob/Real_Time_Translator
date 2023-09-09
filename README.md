@@ -14,16 +14,16 @@ sudo apt-get install portaudio19-dev
 # Install Python development headers (for Python 3)
 sudo apt-get install python3-dev
 
-# Clone the PyAudio repository
+## Clone the PyAudio repository
 git clone http://people.csail.mit.edu/hubert/git/pyaudio.git
 
-# Navigate to the PyAudio directory
+## Navigate to the PyAudio directory
 cd pyaudio
 
-# Install PyAudio
+## Install PyAudio
 sudo python3 setup.py install
 
-# Install the SpeechRecognition library using pip3
+## Install the SpeechRecognition library using pip3
 sudo pip3 install SpeechRecognition
 
   
