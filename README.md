@@ -7,11 +7,11 @@ real time translator that translates to local langauges
   pip install google-cloud
   pip install streamlit(run it with sudo permissions)
 
-  # installing pyaudio
-  # Install PortAudio development headers
+  ## installing pyaudio
+  ## Install PortAudio development headers
 sudo apt-get install portaudio19-dev
 
-# Install Python development headers (for Python 3)
+## Install Python development headers (for Python 3)
 sudo apt-get install python3-dev
 
 ## Clone the PyAudio repository
