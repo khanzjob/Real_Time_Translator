@@ -10,7 +10,6 @@ def AllToEnglish(text):
     translated_text = translator.translate(text).text
     response = translated_text
     return response
-<<<<<<< Updated upstream
 def streamData(translation_result):
 
     with st.chat_message("assistant"):
@@ -85,9 +84,6 @@ def listen():
     except Exception as e:
         st.write(f"An error occurred: {e}")
         
-=======
-
->>>>>>> Stashed changes
 def TranslateWords():
     st.title("Language Translator Chat")
 
@@ -109,7 +105,6 @@ def TranslateWords():
         if st.button("Start Listening"):
             st.write("Listening... Speak something!")
 
-<<<<<<< Updated upstream
             recognizer = sr.Recognizer()
 
             try:
@@ -124,53 +119,15 @@ def TranslateWords():
                 st.write("Recognized Text:", recognized_text)
             except sr.WaitTimeoutError:
                 st.write("Timeout error: the speech recognition operation timed out")
-=======
-            audio = sd.rec(int(5 * 44100), samplerate=44100, channels=1, dtype=np.int16)
-            sd.wait()
-
-            recognizer = sr.Recognizer()
-            recognized_text = ""
-
-            try:
-                audio_data = audio.tobytes()  # Convert numpy array to bytes
-                audio_data = sr.AudioData(audio_data, 44100, 2)  # Create AudioData object
-                recognized_text = recognizer.recognize_google(audio_data, language="en")
-                st.write("Recognized Text:", recognized_text)
->>>>>>> Stashed changes
             except sr.UnknownValueError:
                 st.write("Could not understand the audio")
             except sr.RequestError as e:
-<<<<<<< Updated upstream
                 st.write(f"Could not request results from the speech recognition service; check your internet connection: {e}")
             except Exception as e:
                 st.write(f"An error occurred: {e}")
         supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
         target_language = st.selectbox("Select target language:", supported_languages)
         
-=======
-                st.write("Could not request results from Speech Recognition service; {0}".format(e))
-
-        supported_languages = ["Luganda", "Runyankole", "Acholi", "Lugbara", "Ateso"]
-        target_language = st.selectbox("Select target language:", supported_languages)
-
-        if recognized_text:
-            text_in_english = AllToEnglish(recognized_text)
-            translation_result = ENGLISH_TO_ALL_LOCAL(target_language, text_in_english)
-
-            with st.chat_message("assistant"):
-                message_placeholder = st.empty()
-                full_response = ""
-                assistant_response = f"Translation to {target_language}: {translation_result}"
-
-                for chunk in assistant_response.split():
-                    full_response += chunk + " "
-                    time.sleep(0.05)
-                    message_placeholder.markdown(full_response + "▌")
-                    message_placeholder.markdown(full_response)
-
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
-
->>>>>>> Stashed changes
     else:
         prompt = st.chat_input("Enter your message or translation query:")
 
