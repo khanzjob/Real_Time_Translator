@@ -23,7 +23,7 @@ cd pyaudio
 #### Install PyAudio
 sudo python3 setup.py install
 
-### Install the SpeechRecognition library using pip3
+#### Install the SpeechRecognition library using pip3
 sudo pip3 install SpeechRecognition
 
   
