@@ -2,6 +2,7 @@
 import streamlit as st
 from SupportedLanguages import DisplayLanguages
 from Translate import TranslateWords
+from fileUpload import uploadFile
 
 def intro():
     import streamlit as st
@@ -42,6 +43,7 @@ def intro():
 page_names_to_funcs = {
     "—": intro,
     "ChatBot": TranslateWords,
+    "Transalte Docs": uploadFile,
     "Supported Languages": DisplayLanguages
     
 }
