@@ -1,6 +1,5 @@
 aioice==0.9.0
 aiortc==1.5.0
-altair==5.1.1
 anyio==4.0.0
 asttokens==2.3.0
 attrs==23.1.0
@@ -58,9 +57,7 @@ matplotlib-inline==0.1.6
 mdurl==0.1.2
 msgpack==1.0.5
 numba==0.57.1
-numpy==1.24.4
 packaging==23.1
-pandas==2.1.0
 parso==0.8.3
 pexpect==4.8.0
 pickleshare==0.7.5
@@ -107,7 +104,6 @@ soundfile==0.12.1
 soxr==0.3.6
 speechbrain==0.5.12
 stack-data==0.6.2
-streamlit==1.26.0
 streamlit-webrtc==0.47.0
 tenacity==8.2.3
 threadpoolctl==3.2.0
@@ -130,5 +126,8 @@ watchdog==3.0.0
 wcwidth==0.2.6
 Werkzeug==2.3.7
 zipp==3.16.2
-fastapi==0.100.0
-hypercorn==0.14.4
+altair==5.1.2
+numpy==1.26.1
+pandas==2.1.2
+pydeck==0.8.0
+streamlit==1.28.1
