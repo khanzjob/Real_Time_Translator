@@ -40,13 +40,20 @@ def intro():
 
 
 
-page_names_to_funcs = {
-    "—": intro,
-    "ChatBot": TranslateWords,
-    "Transalte Docs": uploadFile,
-    "Supported Languages": DisplayLanguages
-    
-}
+def main():
+    # Mapping page names to functions
+    page_names_to_funcs = {
+        "—": intro,
+        "ChatBot": TranslateWords,
+        "Translate Docs": uploadFile,
+        "Supported Languages": DisplayLanguages
+    }
 
-demo_name = st.sidebar.selectbox("Choose a Action", page_names_to_funcs.keys())
-page_names_to_funcs[demo_name]()
+    # Sidebar for page selection
+    demo_name = st.sidebar.selectbox("Choose an Action", page_names_to_funcs.keys())
+
+    # Execute the selected page/function
+    page_names_to_funcs[demo_name]()
+
+if __name__ == "__main__":
+    main()
