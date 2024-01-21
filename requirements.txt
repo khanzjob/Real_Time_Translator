@@ -33,7 +33,7 @@ h2==3.2.0
 hpack==3.0.0
 SpeechRecognition
 dotenv 
-sounddevice
+sounddevice 
 hstspreload==2023.1.1
 httpcore==0.9.0
 httpx
